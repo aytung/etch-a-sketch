@@ -1,0 +1,124 @@
+
+
+<html>
+
+<head>
+    <title> Grid Elements </title>
+</head>
+<button id="newGridButton"> Press for New Grid</button>
+<body>
+    <div id="grid">
+    </div>
+</body>
+
+</html>
+
+<style>
+    .row {
+        display: flex;
+        flex-direction: row;
+    }
+</style>
+<script>
+
+function makeGrid(size){
+    let grid = document.querySelector("#grid");
+    grid.innerHTML ="";
+        for (let i = 0; i < size; i++) {
+            const curRow = document.createElement('div');
+            curRow.className = "row";
+            for (let j = 0; j < size; j++) {
+            
+                const curTile = document.createElement('div');
+                curTile.className = "tile";
+                curTile.style.width = width / size;
+                curTile.style.height = height / size;
+                curTile.style.backgroundColor = "#000000";
+
+                curRow.appendChild(curTile);
+            }
+                
+         
+            grid.appendChild(curRow);   
+            //grid.appendChild(document.createElement('br')); 
+                
+        }
+        const tiles = document.querySelectorAll('.tile');
+        tiles.forEach(tile => tile.onmouseover = changeColor);
+
+            
+    }
+
+    class RGB {
+        constructor(rgbFormatted) {
+            let colors = rgbFormatted.match("([0-9]{1,3}), ([0-9]{1,3}), ([0-9]{1,3})");
+           
+            this.r = Number(colors[1]);
+            this.g = Number(colors[2]);
+            this.b = Number(colors[3]);
+            
+        }
+
+        
+        incrementValues() {
+            if(this.r < 255) {
+                this.r += 5;
+                this.g += 5;
+                this.b += 5;
+            }
+            console.log
+        }
+        get formatted() {
+            return "rgb(" + this.r + ", " + this.g + ", " + this.b + ")";
+
+        }
+
+
+    };
+        
+    function changeColor(tile) {
+         let backgroundColor = this.style.backgroundColor;
+         let rgb = new RGB(backgroundColor);
+        rgb.incrementValues();
+
+        this.style.backgroundColor = rgb.formatted;
+    
+        
+    }
+
+    var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    var height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+ 
+    makeGrid(16);
+
+  
+    const clearButton = document.querySelector('#newGridButton');
+    clearButton.onclick =  createNewGrid;
+    function clearGrid() {
+        let grid = document.querySelector("#grid");
+        grid.innerHTML ="";
+        console.log("cleared grid");
+   
+    }
+    function createNewGrid() {
+        let value = false;
+        
+        console.log("creating new grid");
+        clearGrid();
+        while (!value) {
+            let userValue = Number(prompt("Enter an integer between 16 and 64"));
+            if (Number.isInteger(userValue)) {
+                value = userValue;
+                
+            }
+        }
+        
+        makeGrid(value);
+        console.log("pressed value");
+
+    }
+
+  
+    
+</script>
